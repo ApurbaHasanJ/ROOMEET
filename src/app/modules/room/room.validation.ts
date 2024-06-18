@@ -18,6 +18,19 @@ const createRoomSchema = z.object({
   }),
 });
 
+// Update Room Schema
+const updateRoomSchema = z.object({
+    body: z.object({
+      name: z.string().optional(),
+      roomNo: z.number().int().positive().optional(),
+      floorNo: z.number().int().positive().optional(),
+      capacity: z.number().int().positive().optional(),
+      pricePerSlot: z.number().positive().optional(),
+      amenities: z.array(z.string()).optional(),
+    }),
+  });
+
 export const RoomValidations = {
   createRoomSchema,
+  updateRoomSchema
 };
