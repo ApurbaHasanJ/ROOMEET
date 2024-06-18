@@ -1,10 +1,10 @@
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
-import { IRoom } from "./room.interface";
-import Room from "./room.model";
+import { TRoom } from "./room.interface";
+import { Room } from "./room.model";
 
 // create a room
-const createRoomIntoDB = async (payload: IRoom) => {
+const createRoomIntoDB = async (payload: TRoom) => {
   const result = await Room.create(payload);
   return result;
 };
@@ -24,11 +24,18 @@ const getRoomByIdFromDB = async (id: string) => {
 //   get all rooms
 const getAllRoomsFromDB = async () => {
   const result = await Room.find();
+
+  // result.forEach((room) => {
+  //   if(room.isDeleted === true) {
+
+  //   }
+  // })
+
   return result;
 };
 
 //   update room by id
-const updateRoomIntoDB = async (id: string, payload: Partial<IRoom>) => {
+const updateRoomIntoDB = async (id: string, payload: Partial<TRoom>) => {
   const result = await Room.findByIdAndUpdate(id, payload, { new: true });
   return result;
 };

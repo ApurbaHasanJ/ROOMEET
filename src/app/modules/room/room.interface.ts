@@ -1,4 +1,4 @@
-export interface IRoom {
+export interface TRoom {
     _id?: string;
     name: string;
     roomNo: number;
