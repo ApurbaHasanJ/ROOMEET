@@ -4,6 +4,7 @@ import httpStatus from "http-status";
 import { RoomServices } from "./room.service";
 import catchAsync from "../../utils/catchAsync";
 
+// create room
 const createRoom = catchAsync(async (req: Request, res: Response) => {
   const roomData = req.body;
   const newRoom = await RoomServices.createRoomIntoDB(roomData);
@@ -30,7 +31,6 @@ const getRoomById = catchAsync(async (req: Request, res: Response) => {
 });
 // get all rooms
 const getAllRooms = catchAsync(async (req: Request, res: Response) => {
-  
   const result = await RoomServices.getAllRoomsFromDB();
 
   sendResponse(res, {
@@ -41,8 +41,37 @@ const getAllRooms = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// update room by id
+const updateRoom = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const updateData = req.body;
+  const updatedRoom = await RoomServices.updateRoomIntoDB(id, updateData);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Room updated successfully",
+    data: updatedRoom,
+  });
+});
+
+// delete the room
+const deleteRoom = catchAsync(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const deletedRoom = await RoomServices.deleteRoomFromDB(id);
+  
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Room deleted successfully",
+      data: deletedRoom,
+    });
+  });
+
 export const RoomControllers = {
   createRoom,
   getRoomById,
-  getAllRooms
+  getAllRooms,
+  updateRoom,
+  deleteRoom
 };

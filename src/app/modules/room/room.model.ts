@@ -30,5 +30,10 @@ RoomSchema.pre("save", async function (next) {
   next();
 });
 
+// avoid deleted rooms in return
+RoomSchema.pre("findOne", async function (next) {
+  this.find({ isDeleted: { $ne: true } });
+});
+
 const Room = model<IRoom>("Room", RoomSchema);
 export default Room;
