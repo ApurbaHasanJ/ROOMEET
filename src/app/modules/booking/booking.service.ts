@@ -3,6 +3,7 @@ import { Slot } from "../slot/slot.model";
 import { TBooking } from "./booking.interface";
 import { Booking } from "./booking.model";
 
+// create booking
 const createBookingIntoDB = async (payload: TBooking) => {
   const booking = new Booking(payload);
 
@@ -18,6 +19,18 @@ const createBookingIntoDB = async (payload: TBooking) => {
   return result;
 };
 
+// get all bookings
+const getAllBookingsFromDB = async (): Promise<TBooking[]> => {
+    const bookings = await Booking.find()
+      .populate("slots")
+      .populate("room")
+      .populate("user")
+      .exec();
+  
+    return bookings;
+  };
+
 export const BookingServices = {
   createBookingIntoDB,
+  getAllBookingsFromDB
 };
