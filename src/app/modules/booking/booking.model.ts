@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import { TBooking } from "./booking.interface";
+import { Room } from "../room/room.model";
 
 const BookingSchema = new Schema<TBooking>(
   {
@@ -19,12 +20,19 @@ const BookingSchema = new Schema<TBooking>(
 
 // generating totalAmount
 BookingSchema.virtual("totalAmount").get(function () {
-  const pricePerSlot = this.room.pricePerSlot;
+
+  const pricePerSlot = this?.room?.pricePerSlot;
 
   if (!this.room || !pricePerSlot) {
     return 0;
   }
   return pricePerSlot * this.slots.length;
 });
+
+// BookingSchema.methods.calculateTotalAmount = async function () {
+//   const room = await Room.findById(this.room);
+//   const pricePerSlot = room?.pricePerSlot || 0;
+//   return pricePerSlot * this.slots.length;
+// };
 
 export const Booking = model<TBooking>("Booking", BookingSchema);
