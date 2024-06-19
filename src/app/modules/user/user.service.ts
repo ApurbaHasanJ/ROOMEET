@@ -19,16 +19,13 @@ const createUserIntoDB = async (payload: TUser) => {
 
 // login user
 const loginUser = async (payload: TLoginUser) => {
-  console.log({ payload });
 
-  // checking if the user is exist
   // checking if the user is exist
   const user = await User.isUserExistsByEmail(payload.email);
 
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "This user is not found !");
   }
-  console.log(user);
 
   //checking if the password is correct
   if (!(await User.isPasswordMatched(payload?.password, user?.password)))
@@ -47,15 +44,8 @@ const loginUser = async (payload: TLoginUser) => {
     config.jwt_access_expires_in as string
   );
 
-  const refreshToken = createToken(
-    jwtPayload,
-    config.jwt_refresh_secret as string,
-    config.jwt_refresh_expires_in as string
-  );
-
   return {
     accessToken,
-    refreshToken,
   };
 };
 

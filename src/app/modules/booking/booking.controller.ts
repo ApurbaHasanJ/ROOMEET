@@ -18,11 +18,11 @@ const createBooking = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// create a new booking
+// get all new bookings
 const getAllBookings = catchAsync(async (req: Request, res: Response) => {
   const result = await BookingServices.getAllBookingsFromDB();
 
-//   if empty
+  //   if empty
   if (result.length === 0) {
     sendResponse(res, {
       success: false,
@@ -36,6 +36,30 @@ const getAllBookings = catchAsync(async (req: Request, res: Response) => {
     success: true,
     statusCode: httpStatus.OK,
     message: "All bookings retrieved successfully",
+    data: result,
+  });
+});
+
+// get user bookings
+const getUserBookings = catchAsync(async (req: Request, res: Response) => {
+  const authHeader = req.headers.authorization;
+
+  const result = await BookingServices.getUserBookingsFromDB(authHeader);
+
+  //   if empty
+  if (result.length === 0) {
+    sendResponse(res, {
+      success: false,
+      statusCode: httpStatus.NOT_FOUND,
+      message: "Bookings does not exist or has been deleted",
+      data: result,
+    });
+  }
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "User bookings retrieved successfully",
     data: result,
   });
 });
@@ -70,6 +94,7 @@ const deleteBookingFromDB = catchAsync(async (req: Request, res: Response) => {
 export const BookingControllers = {
   createBooking,
   getAllBookings,
+  getUserBookings,
   updateBookingInDB,
   deleteBookingFromDB,
 };
