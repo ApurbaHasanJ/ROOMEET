@@ -22,17 +22,17 @@ const createBookingIntoDB = async (payload: TBooking) => {
 };
 
 // get all bookings
-const getAllBookingsFromDB = async (): Promise<TBooking[]> => {
-  const bookings = await Booking.find()
+const getAllBookingsFromDB = async () => {
+  const result = await Booking.find()
     .populate("slots")
     .populate("room")
     .populate("user")
     .exec();
 
-  return bookings;
+  return result;
 };
 
-//   update bookings by admin
+//   update booking by admin
 const updateBookingInDB = async (id: string, isConfirmed: boolean) => {
   const updatedBooking = await Booking.findByIdAndUpdate(
     id,
@@ -45,13 +45,30 @@ const updateBookingInDB = async (id: string, isConfirmed: boolean) => {
   }
 
   const room = await Room.findById(updatedBooking.room);
-  const totalAmount = room ? room.pricePerSlot * updatedBooking.slots.length : 0;
+  const totalAmount = room
+    ? room.pricePerSlot * updatedBooking.slots.length
+    : 0;
 
   return { ...updatedBooking.toObject(), totalAmount };
+};
+
+// delete booking by id
+const deleteBookingFromDB = async (id: string) => {
+  const result = await Booking.findByIdAndUpdate(
+    id,
+    { isDeleted: true },
+    { new: true }
+  );
+
+  const room = await Room.findById(result?.room);
+  const totalAmount = room ? room?.pricePerSlot * result?.slots?.length : 0;
+
+  return { ...result?.toObject(), totalAmount };
 };
 
 export const BookingServices = {
   createBookingIntoDB,
   getAllBookingsFromDB,
   updateBookingInDB,
+  deleteBookingFromDB,
 };

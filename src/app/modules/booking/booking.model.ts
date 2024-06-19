@@ -20,7 +20,6 @@ const BookingSchema = new Schema<TBooking>(
 
 // generating totalAmount
 BookingSchema.virtual("totalAmount").get(function () {
-
   const pricePerSlot = this?.room?.pricePerSlot;
 
   if (!this.room || !pricePerSlot) {
@@ -29,10 +28,14 @@ BookingSchema.virtual("totalAmount").get(function () {
   return pricePerSlot * this.slots.length;
 });
 
-// BookingSchema.methods.calculateTotalAmount = async function () {
-//   const room = await Room.findById(this.room);
-//   const pricePerSlot = room?.pricePerSlot || 0;
-//   return pricePerSlot * this.slots.length;
-// };
+// avoid deleted rooms in return using id
+BookingSchema.pre("findOne", async function (next) {
+  this.find({ isDeleted: { $ne: true } });
+});
+
+// avoid deleted rooms in return using find
+BookingSchema.pre("find", async function (next) {
+  this.find({ isDeleted: { $ne: true } });
+});
 
 export const Booking = model<TBooking>("Booking", BookingSchema);

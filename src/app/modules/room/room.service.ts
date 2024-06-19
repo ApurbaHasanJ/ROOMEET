@@ -12,24 +12,13 @@ const createRoomIntoDB = async (payload: TRoom) => {
 // get a room by id
 const getRoomByIdFromDB = async (id: string) => {
   const result = await Room.findById(id);
-  if (!result || result.isDeleted) {
-    throw new AppError(
-      httpStatus.NOT_FOUND,
-      "Room does not exist or has been deleted"
-    );
-  }
+
   return result;
 };
 
 //   get all rooms
 const getAllRoomsFromDB = async () => {
   const result = await Room.find();
-
-  // result.forEach((room) => {
-  //   if(room.isDeleted === true) {
-
-  //   }
-  // })
 
   return result;
 };

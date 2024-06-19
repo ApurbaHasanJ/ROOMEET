@@ -22,6 +22,16 @@ const getRoomById = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const result = await RoomServices.getRoomByIdFromDB(id);
 
+  //   if empty
+  if (!result) {
+    sendResponse(res, {
+      success: false,
+      statusCode: httpStatus.NOT_FOUND,
+      message: "Room does not exist or has been deleted",
+      data: result,
+    });
+  }
+
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -32,6 +42,16 @@ const getRoomById = catchAsync(async (req: Request, res: Response) => {
 // get all rooms
 const getAllRooms = catchAsync(async (req: Request, res: Response) => {
   const result = await RoomServices.getAllRoomsFromDB();
+
+  //   if empty
+  if (result.length === 0) {
+    sendResponse(res, {
+      success: false,
+      statusCode: httpStatus.NOT_FOUND,
+      message: "Rooms does not exist or has been deleted",
+      data: result,
+    });
+  }
 
   sendResponse(res, {
     success: true,
@@ -57,21 +77,21 @@ const updateRoom = catchAsync(async (req: Request, res: Response) => {
 
 // delete the room
 const deleteRoom = catchAsync(async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const deletedRoom = await RoomServices.deleteRoomFromDB(id);
-  
-    sendResponse(res, {
-      success: true,
-      statusCode: httpStatus.OK,
-      message: "Room deleted successfully",
-      data: deletedRoom,
-    });
+  const { id } = req.params;
+  const deletedRoom = await RoomServices.deleteRoomFromDB(id);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Room deleted successfully",
+    data: deletedRoom,
   });
+});
 
 export const RoomControllers = {
   createRoom,
   getRoomById,
   getAllRooms,
   updateRoom,
-  deleteRoom
+  deleteRoom,
 };

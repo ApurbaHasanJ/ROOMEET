@@ -16,5 +16,7 @@ router.get("/", BookingControllers.getAllBookings);
 
 router.put("/:id", BookingControllers.updateBookingInDB);
 
+router.delete("/:id", BookingControllers.deleteBookingFromDB);
+
 
 export const BookingRoutes = router;
