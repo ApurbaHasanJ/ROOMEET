@@ -18,20 +18,32 @@ const createSlot = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAvailableSlots = catchAsync(async (req: Request, res: Response) => {
-    const { date, roomId } = req.query;
-  
-    const availableSlots = await SlotServices.getAvailableSlotsFromDB(date as string, roomId as string);
-  
-    sendResponse(res, {
-      success: true,
-      statusCode: httpStatus.OK,
-      message: "Available slots retrieved successfully",
-      data: availableSlots,
-    });
-  });
+  const { date, roomId } = req.query;
 
-  
+  const result = await SlotServices.getAvailableSlotsFromDB(
+    date as string,
+    roomId as string
+  );
+
+  //   if empty
+  if (!result.length) {
+    sendResponse(res, {
+      success: false,
+      statusCode: httpStatus.NOT_FOUND,
+      message: "Slot does't exist or has been deleted",
+      data: result,
+    });
+  }
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Available slots retrieved successfully",
+    data: result,
+  });
+});
+
 export const SlotControllers = {
   createSlot,
-  getAvailableSlots
+  getAvailableSlots,
 };
