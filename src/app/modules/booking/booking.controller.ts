@@ -27,7 +27,7 @@ const getAllBookings = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
       success: false,
       statusCode: httpStatus.NOT_FOUND,
-      message: "Bookings does not exist or has been deleted",
+      message: "No Data Found",
       data: result,
     });
   }

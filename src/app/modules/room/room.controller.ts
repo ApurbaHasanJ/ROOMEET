@@ -27,7 +27,7 @@ const getRoomById = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
       success: false,
       statusCode: httpStatus.NOT_FOUND,
-      message: "Room does not exist or has been deleted",
+      message: "No Data Found",
       data: result,
     });
   }
@@ -48,7 +48,7 @@ const getAllRooms = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
       success: false,
       statusCode: httpStatus.NOT_FOUND,
-      message: "Rooms does not exist or has been deleted",
+      message: "No Data Found",
       data: result,
     });
   }

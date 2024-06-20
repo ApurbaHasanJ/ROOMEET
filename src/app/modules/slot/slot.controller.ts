@@ -30,7 +30,7 @@ const getAvailableSlots = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
       success: false,
       statusCode: httpStatus.NOT_FOUND,
-      message: "Slot does't exist or has been deleted",
+      message: "No Data Found",
       data: result,
     });
   }
