@@ -1,5 +1,5 @@
-import { Model } from "mongoose";
-import { USER_ROLE } from "./user.constant";
+import { Model } from 'mongoose';
+import { USER_ROLE } from './user.constant';
 
 export type TRole = 'user' | 'admin';
 

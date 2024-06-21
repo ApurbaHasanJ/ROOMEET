@@ -1,20 +1,20 @@
-import express from "express";
-import { UserControllers } from "./user.controller";
-import { UserValidations } from "./user.validation";
-import validateRequest from "../../middlewares/validateRequest";
+import express from 'express';
+import { UserControllers } from './user.controller';
+import { UserValidations } from './user.validation';
+import validateRequest from '../../middlewares/validateRequest';
 
 const router = express.Router();
 
 router.post(
-  "/signup",
+  '/signup',
   validateRequest(UserValidations.createUserSchema),
-  UserControllers.createUser
+  UserControllers.createUser,
 );
 
 router.post(
-  "/login",
+  '/login',
   validateRequest(UserValidations.loginUserSchema),
-  UserControllers.loginUser
+  UserControllers.loginUser,
 );
 
 export const UserRoutes = router;

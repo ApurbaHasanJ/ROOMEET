@@ -1,26 +1,26 @@
-import { Router } from "express";
-import { UserRoutes } from "../modules/user/user.route";
-import { RoomRoutes } from "../modules/room/room.route";
-import { SlotRoutes } from "../modules/slot/slot.route";
-import { BookingRoutes } from "../modules/booking/booking.route";
+import { Router } from 'express';
+import { UserRoutes } from '../modules/user/user.route';
+import { RoomRoutes } from '../modules/room/room.route';
+import { SlotRoutes } from '../modules/slot/slot.route';
+import { BookingRoutes } from '../modules/booking/booking.route';
 
 const router = Router();
 
 const moduleRoutes = [
   {
-    path: "/auth",
+    path: '/auth',
     route: UserRoutes,
   },
   {
-    path: "/rooms",
+    path: '/rooms',
     route: RoomRoutes,
   },
   {
-    path: "/slots",
+    path: '/slots',
     route: SlotRoutes,
   },
   {
-    path: "/",
+    path: '/',
     route: BookingRoutes,
   },
 ];

@@ -1,5 +1,5 @@
-import { TRoom } from "./room.interface";
-import { Room } from "./room.model";
+import { TRoom } from './room.interface';
+import { Room } from './room.model';
 
 // create a room
 const createRoomIntoDB = async (payload: TRoom) => {
@@ -31,7 +31,7 @@ const deleteRoomFromDB = async (id: string) => {
   const result = await Room.findByIdAndUpdate(
     id,
     { isDeleted: true },
-    { new: true }
+    { new: true },
   );
   return result;
 };

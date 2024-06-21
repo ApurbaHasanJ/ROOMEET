@@ -1,13 +1,17 @@
-import { Schema, model } from "mongoose";
-import { TBooking } from "./booking.interface";
+import { Schema, model } from 'mongoose';
+import { BookingStatus, TBooking } from './booking.interface';
 
 const BookingSchema = new Schema<TBooking>(
   {
     date: { type: String, required: true },
-    slots: [{ type: Schema.Types.ObjectId, ref: "Slot", required: true }],
-    room: { type: Schema.Types.ObjectId, ref: "Room", required: true },
-    user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    isConfirmed: { type: String, default: "unconfirmed" },
+    slots: [{ type: Schema.Types.ObjectId, ref: 'Slot', required: true }],
+    room: { type: Schema.Types.ObjectId, ref: 'Room', required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    isConfirmed: {
+      type: String,
+      enum: BookingStatus,
+      default: BookingStatus.Unconfirmed,
+    },
     isDeleted: { type: Boolean, default: false },
   },
   {
@@ -15,12 +19,12 @@ const BookingSchema = new Schema<TBooking>(
     toJSON: {
       virtuals: true,
     },
-  }
+  },
 );
 
 // generating totalAmount
 // BookingSchema.virtual("totalAmount").get(function () {
-//   const pricePerSlot = this.room.pricePerSlot as Partial<TRoom>;
+//   const pricePerSlot = this.room.pricePerSlot;
 
 //   if (!this.room || !pricePerSlot) {
 //     return 0;
@@ -36,15 +40,15 @@ const BookingSchema = new Schema<TBooking>(
 // };
 
 // avoid deleted rooms in return using id
-BookingSchema.pre("findOne", async function (next) {
+BookingSchema.pre('findOne', async function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });
 
 // avoid deleted rooms in return using find
-BookingSchema.pre("find", async function (next) {
+BookingSchema.pre('find', async function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });
 
-export const Booking = model<TBooking>("Booking", BookingSchema);
+export const Booking = model<TBooking>('Booking', BookingSchema);

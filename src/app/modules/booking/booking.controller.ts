@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
-import sendResponse from "../../utils/sendResponse";
-import httpStatus from "http-status";
-import { BookingServices } from "./booking.service";
-import catchAsync from "../../utils/catchAsync";
+import { Request, Response } from 'express';
+import sendResponse from '../../utils/sendResponse';
+import httpStatus from 'http-status';
+import { BookingServices } from './booking.service';
+import catchAsync from '../../utils/catchAsync';
 
 // create a new booking
 const createBooking = catchAsync(async (req: Request, res: Response) => {
@@ -13,7 +13,7 @@ const createBooking = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: "Booking created successfully",
+    message: 'Booking created successfully',
     data: newBooking,
   });
 });
@@ -27,7 +27,7 @@ const getAllBookings = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
       success: false,
       statusCode: httpStatus.NOT_FOUND,
-      message: "No Data Found",
+      message: 'No Data Found',
       data: result,
     });
   }
@@ -35,7 +35,7 @@ const getAllBookings = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: "All bookings retrieved successfully",
+    message: 'All bookings retrieved successfully',
     data: result,
   });
 });
@@ -51,7 +51,7 @@ const getUserBookings = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
       success: false,
       statusCode: httpStatus.NOT_FOUND,
-      message: "Bookings are not found",
+      message: 'Bookings are not found',
       data: result,
     });
   }
@@ -59,7 +59,7 @@ const getUserBookings = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: "User bookings retrieved successfully",
+    message: 'User bookings retrieved successfully',
     data: result,
   });
 });
@@ -73,7 +73,7 @@ const updateBookingInDB = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: "All bookings retrieved successfully",
+    message: 'All bookings retrieved successfully',
     data: result,
   });
 });
@@ -86,7 +86,7 @@ const deleteBookingFromDB = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: "Booking deleted successfully",
+    message: 'Booking deleted successfully',
     data: result,
   });
 });

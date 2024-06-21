@@ -1,9 +1,9 @@
-import { RequestHandler } from "express";
-import catchAsync from "../../utils/catchAsync";
-import sendResponse from "../../utils/sendResponse";
-import httpStatus from "http-status";
-import { UserServices } from "./user.service";
-import { User } from "./user.model";
+import { RequestHandler } from 'express';
+import catchAsync from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
+import httpStatus from 'http-status';
+import { UserServices } from './user.service';
+import { User } from './user.model';
 
 // create a new user
 const createUser: RequestHandler = catchAsync(async (req, res) => {
@@ -13,7 +13,7 @@ const createUser: RequestHandler = catchAsync(async (req, res) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: "User registered successfully",
+    message: 'User registered successfully',
     data: result,
   });
 });
@@ -28,7 +28,7 @@ const loginUser = catchAsync(async (req, res) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: "User logged in successfully!",
+    message: 'User logged in successfully!',
     token: accessToken,
     data: user,
   });

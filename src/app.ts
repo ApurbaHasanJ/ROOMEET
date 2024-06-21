@@ -1,8 +1,8 @@
-import cors from "cors";
-import express, { Application, Request, Response } from "express";
-import notFound from "./app/middlewares/notFound";
-import router from "./app/routes";
-import globalErrorHandler from "./app/middlewares/globalErrorHandler";
+import cors from 'cors';
+import express, { Application, Request, Response } from 'express';
+import notFound from './app/middlewares/notFound';
+import router from './app/routes';
+import globalErrorHandler from './app/middlewares/globalErrorHandler';
 
 const app: Application = express();
 
@@ -11,18 +11,18 @@ app.use(express.json());
 app.use(cors());
 
 // default route
-app.get("/", (req: Request, res: Response) => {
+app.get('/', (req: Request, res: Response) => {
   // Constructing server status object
   const serverStatus = {
-    status: "running",
-    message: "ROOMEET API is operational and running smoothly.",
+    status: 'running',
+    message: 'ROOMEET API is operational and running smoothly.',
     timestamp: new Date().toISOString(),
-    version: "v1.0.1",
+    version: 'v1.0.1',
     uptime: process.uptime(),
-    author: "Apurba Hasan J",
+    author: 'Apurba Hasan J',
     contact: {
-      email: "apurbahasanj@gmail.com",
-      website: "https://apurbahasanj.netlify.app/",
+      email: 'apurbahasanj@gmail.com',
+      website: 'https://apurbahasanj.netlify.app/',
     },
   };
   res.json(serverStatus);
@@ -36,8 +36,8 @@ const test = (req: Request, res: Response) => {
 };
 
 // application routes
-app.use("/api/", router);
-app.get("/test", test);
+app.use('/api/', router); // main
+app.get('/test', test);
 
 // not found route
 app.use(notFound);

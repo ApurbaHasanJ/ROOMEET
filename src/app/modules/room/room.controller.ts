@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
-import sendResponse from "../../utils/sendResponse";
-import httpStatus from "http-status";
-import { RoomServices } from "./room.service";
-import catchAsync from "../../utils/catchAsync";
+import { Request, Response } from 'express';
+import sendResponse from '../../utils/sendResponse';
+import httpStatus from 'http-status';
+import { RoomServices } from './room.service';
+import catchAsync from '../../utils/catchAsync';
 
 // create room
 const createRoom = catchAsync(async (req: Request, res: Response) => {
@@ -12,7 +12,7 @@ const createRoom = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: "Room added successfully",
+    message: 'Room added successfully',
     data: newRoom,
   });
 });
@@ -27,7 +27,7 @@ const getRoomById = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
       success: false,
       statusCode: httpStatus.NOT_FOUND,
-      message: "No Data Found",
+      message: 'No Data Found',
       data: result,
     });
   }
@@ -35,7 +35,7 @@ const getRoomById = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: "Room retrieved successfully",
+    message: 'Room retrieved successfully',
     data: result,
   });
 });
@@ -48,7 +48,7 @@ const getAllRooms = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
       success: false,
       statusCode: httpStatus.NOT_FOUND,
-      message: "No Data Found",
+      message: 'No Data Found',
       data: result,
     });
   }
@@ -56,7 +56,7 @@ const getAllRooms = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: "Rooms retrieved successfully",
+    message: 'Rooms retrieved successfully',
     data: result,
   });
 });
@@ -70,7 +70,7 @@ const updateRoom = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: "Room updated successfully",
+    message: 'Room updated successfully',
     data: updatedRoom,
   });
 });
@@ -83,7 +83,7 @@ const deleteRoom = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: "Room deleted successfully",
+    message: 'Room deleted successfully',
     data: deletedRoom,
   });
 });

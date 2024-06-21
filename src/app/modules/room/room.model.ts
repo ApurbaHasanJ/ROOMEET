@@ -1,7 +1,7 @@
-import { Schema, model } from "mongoose";
-import { TRoom } from "./room.interface";
-import AppError from "../../errors/AppError";
-import httpStatus from "http-status";
+import { Schema, model } from 'mongoose';
+import { TRoom } from './room.interface';
+import AppError from '../../errors/AppError';
+import httpStatus from 'http-status';
 
 const RoomSchema = new Schema<TRoom>(
   {
@@ -13,17 +13,17 @@ const RoomSchema = new Schema<TRoom>(
     amenities: { type: [String], required: true },
     isDeleted: { type: Boolean, default: false },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // checking if the room no is already exists
-RoomSchema.pre("save", async function (next) {
+RoomSchema.pre('save', async function (next) {
   const existingRoom = await Room.findOne({ roomNo: this.roomNo });
 
   if (existingRoom) {
     throw new AppError(
       httpStatus.ALREADY_REPORTED,
-      "This room no. is already exists"
+      'This room no. is already exists',
     );
   }
 
@@ -31,15 +31,15 @@ RoomSchema.pre("save", async function (next) {
 });
 
 // avoid deleted rooms in return using id
-RoomSchema.pre("findOne", async function (next) {
+RoomSchema.pre('findOne', async function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });
 
 // avoid deleted rooms in return using find
-RoomSchema.pre("find", async function (next) {
+RoomSchema.pre('find', async function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });
 
-export const Room = model<TRoom>("Room", RoomSchema);
+export const Room = model<TRoom>('Room', RoomSchema);
