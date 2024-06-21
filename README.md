@@ -29,7 +29,7 @@ The application includes robust validation and error handling mechanisms to ensu
 
 ## Project Server Link
 
-The project is deployed on Vercel: [ROOMEET](https://roomeet.vercel.app)
+The project is deployed on Vercel: [ROOMEET](https://roomeet.vercel.app/)
 
 ## Technology Stack
 

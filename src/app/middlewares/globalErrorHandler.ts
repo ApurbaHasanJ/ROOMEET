@@ -11,7 +11,7 @@ import { ZodError } from "zod";
 import config from "../config";
 import { TErrorSources } from "../interface/error";
 import { handleZodError } from "../errors/handleZorError";
-import { handleValidationError } from "../errors/HandleValidationError";
+import { handleValidationError } from "../errors/handleValidationError";
 import { handleCastError } from "../errors/handleCastError";
 import { handleDuplicateError } from "../errors/handleDuplicateError";
 import AppError from "../errors/AppError";

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 import { Schema, model } from "mongoose";
 import { TUser, UserModel } from "./user.interface";
 import AppError from "../../errors/AppError";
@@ -36,7 +37,7 @@ UserSchema.pre("save", async function (next) {
 
 // bcrypt the password before saving to the database
 UserSchema.pre("save", async function (next) {
-  const user = this;
+  const user: TUser = this;
 
   user.password = await bcrypt.hash(
     user.password,
@@ -54,14 +55,13 @@ UserSchema.post("save", function (doc, next) {
 
 // cheeking if the user email do not exist
 UserSchema.statics.isUserExistsByEmail = async function (email: string) {
-  return await User.findOne({ email }).select('+password');
+  return await User.findOne({ email }).select("+password");
 };
-
 
 // cheeking if the user is not matched
 UserSchema.statics.isPasswordMatched = async function (
   plainTextPassword,
-  hashedPassword,
+  hashedPassword
 ) {
   return await bcrypt.compare(plainTextPassword, hashedPassword);
 };

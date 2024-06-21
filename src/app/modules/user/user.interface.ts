@@ -5,6 +5,7 @@ export type TRole = 'user' | 'admin';
 
 // signup
 export interface TUser {
+  _id: number;
   name: string;
   email: string;
   password: string;

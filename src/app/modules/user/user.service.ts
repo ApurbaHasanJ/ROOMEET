@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { TLoginUser, TUser } from "./user.interface";
 import { User } from "./user.model";
-import bcrypt from "bcrypt";
 import { createToken } from "./user.utils";
 import config from "../../config";
 

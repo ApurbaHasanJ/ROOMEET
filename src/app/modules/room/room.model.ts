@@ -1,4 +1,4 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model } from "mongoose";
 import { TRoom } from "./room.interface";
 import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
@@ -33,11 +33,13 @@ RoomSchema.pre("save", async function (next) {
 // avoid deleted rooms in return using id
 RoomSchema.pre("findOne", async function (next) {
   this.find({ isDeleted: { $ne: true } });
+  next();
 });
 
 // avoid deleted rooms in return using find
 RoomSchema.pre("find", async function (next) {
   this.find({ isDeleted: { $ne: true } });
+  next();
 });
 
 export const Room = model<TRoom>("Room", RoomSchema);

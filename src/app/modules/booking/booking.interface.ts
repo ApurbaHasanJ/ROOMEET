@@ -8,3 +8,4 @@ export interface TBooking {
   isConfirmed: string;
   isDeleted: boolean;
 }
+

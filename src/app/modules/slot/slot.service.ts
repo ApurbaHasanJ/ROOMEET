@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from "mongoose";
 import { TSlot } from "./slot.interface";
 import { Slot } from "./slot.model";

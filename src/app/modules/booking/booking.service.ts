@@ -1,28 +1,34 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { Room } from "../room/room.model";
 import { Slot } from "../slot/slot.model";
 import { TBooking } from "./booking.interface";
 import { Booking } from "./booking.model";
 import config from "../../config";
 import { User } from "../user/user.model";
-import mongoose from "mongoose";
+import { Types } from "mongoose";
+import { calculateTotalAmount } from "./booking.utils";
 
 // create booking
 const createBookingIntoDB = async (payload: TBooking) => {
-  const booking = new Booking(payload);
+  // const booking = new Booking(payload);
 
   // Mark slots as booked
   await Slot.updateMany({ _id: { $in: payload.slots } }, { isBooked: true });
 
-  const result = await booking.save();
+  const result = await Booking.create(payload);
   // Populate the result
   await result.populate("slots");
   await result.populate("room");
   await result.populate("user");
 
-  return result;
+  const totalAmount = await calculateTotalAmount(
+    result.room,
+    result.slots.length
+  );
+
+  return { ...result.toObject(), totalAmount };
 };
 
 // get all bookings
@@ -41,8 +47,6 @@ const getUserBookingsFromDB = async (authHeader: any) => {
   // get the actual token
   const token = authHeader.split(" ")[1];
 
-  console.log({ token });
-
   // checking if the given token is valid
   const decoded = jwt.verify(
     token,
@@ -51,8 +55,6 @@ const getUserBookingsFromDB = async (authHeader: any) => {
 
   const { userEmail } = decoded;
 
-  console.log({ userEmail });
-
   const user = await User.isUserExistsByEmail(userEmail);
   if (!user) {
     throw new Error("User not found");
@@ -60,7 +62,7 @@ const getUserBookingsFromDB = async (authHeader: any) => {
 
   // Find bookings for the user
   const result = await Booking.find({
-    user: new mongoose.Types.ObjectId(user._id),
+    user: new Types.ObjectId(user?._id),
   })
     .populate("slots")
     .populate("room")
@@ -72,22 +74,22 @@ const getUserBookingsFromDB = async (authHeader: any) => {
 
 //   update booking by admin
 const updateBookingInDB = async (id: string, isConfirmed: boolean) => {
-  const updatedBooking = await Booking.findByIdAndUpdate(
+  const result = await Booking.findByIdAndUpdate(
     id,
     { isConfirmed },
     { new: true }
   ).exec();
 
-  if (!updatedBooking) {
+  if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, "Booking not found");
   }
 
-  const room = await Room.findById(updatedBooking.room);
-  const totalAmount = room
-    ? room.pricePerSlot * updatedBooking.slots.length
-    : 0;
+  const totalAmount = await calculateTotalAmount(
+    result.room,
+    result.slots.length
+  );
 
-  return { ...updatedBooking.toObject(), totalAmount };
+  return { ...result.toObject(), totalAmount };
 };
 
 // delete booking by id
@@ -98,8 +100,9 @@ const deleteBookingFromDB = async (id: string) => {
     { new: true }
   );
 
-  const room = await Room.findById(result?.room);
-  const totalAmount = room ? room?.pricePerSlot * result?.slots?.length : 0;
+  
+  const totalAmount = await calculateTotalAmount(result?.room, result?.slots?.length);
+
 
   return { ...result?.toObject(), totalAmount };
 };

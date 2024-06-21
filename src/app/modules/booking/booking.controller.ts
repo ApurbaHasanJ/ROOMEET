@@ -51,7 +51,7 @@ const getUserBookings = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
       success: false,
       statusCode: httpStatus.NOT_FOUND,
-      message: "Bookings does not exist or has been deleted",
+      message: "Bookings are not found",
       data: result,
     });
   }
