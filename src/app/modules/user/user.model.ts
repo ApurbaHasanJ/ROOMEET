@@ -53,7 +53,7 @@ UserSchema.post('save', function (doc, next) {
   next();
 });
 
-// cheeking if the user email do not exist
+// cheeking if the user email do not exist ,
 UserSchema.statics.isUserExistsByEmail = async function (email: string) {
   return await User.findOne({ email }).select('+password');
 };
