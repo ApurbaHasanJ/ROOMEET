@@ -58,7 +58,7 @@ UserSchema.statics.isUserExistsByEmail = async function (email: string) {
   return await User.findOne({ email }).select('+password');
 };
 
-// cheeking if the user is not matched
+// cheeking if the user is not matched,
 UserSchema.statics.isPasswordMatched = async function (
   plainTextPassword,
   hashedPassword,
